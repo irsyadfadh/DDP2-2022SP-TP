@@ -53,16 +53,46 @@ public class Perintah {
             System.exit(0);
         else if (in[0].equalsIgnoreCase("reset"))
             kurakuraku.reset();
-        else if (in[0].equalsIgnoreCase("maju"))
-            kurakuraku.maju(Integer.parseInt(in[1]));
-        else if (in[0].equalsIgnoreCase("mundur"))
+        else if (in[0].equalsIgnoreCase("maju")){
+            if(in.length > 1){
+                kurakuraku.maju(Integer.parseInt(in[1]));
+            }
+            else{
+                return "perintah tidak dipahami.";
+            }
+        }
+        else if (in[0].equalsIgnoreCase("mundur")){
+            if (in.length > 1) {
                 kurakuraku.mundur(Integer.parseInt(in[1]));
-        else if (in[0].equalsIgnoreCase("rotasi"))
+            } 
+            else {
+                return "Perintah tidak dipahami.";
+            }
+        }
+        else if (in[0].equalsIgnoreCase("rotasi")){
+            if (in.length > 1) {
                 kurakuraku.rotasi(Integer.parseInt(in[1]));
-        else if (in[0].equalsIgnoreCase("kotak"))
+            } 
+            else {
+                return "Perintah tidak dipahami.";
+            }
+        } 
+        else if (in[0].equalsIgnoreCase("kotak")){
+            if (in.length > 1) {
                 buatKotak(Integer.parseInt(in[1]));
-        else if (in[0].equalsIgnoreCase("segitiga"))
+            } 
+            else {
+                return "Perintah tidak dipahami.";
+            }
+        }
+        else if (in[0].equalsIgnoreCase("segitiga")){
+            if (in.length > 1) {
                 buatSegitiga(Integer.parseInt(in[1]));
+            } 
+            else {
+                return "Perintah tidak dipahami.";
+            }
+        }
         else if (in[0].equalsIgnoreCase("segitigaSikuSiku")) {
             if (in.length > 2) {
                 buatSegitigaSikuSiku(Integer.parseInt(in[1]), Integer.parseInt(in[2]));
@@ -93,14 +123,30 @@ public class Perintah {
             else
                 return "Perintah tidak dipahami.";
             } 
+        // else if (in[0].equalsIgnoreCase("loop")) {
+        //     int loopCount = Integer.parseInt(in[1]);
+        //     StringBuilder repeatedCommands = new StringBuilder();
+        //     for (int i = 2; i < in.length; i++) {
+        //         repeatedCommands.append(in[i]).append(" ");
+        //     }
+        //     for (int i = 0; i < loopCount; i++) {
+        //         lakukan(repeatedCommands.toString().trim());
+        //     }
+        // }
         else if (in[0].equalsIgnoreCase("loop")) {
-            int loopCount = Integer.parseInt(in[1]);
-            StringBuilder repeatedCommands = new StringBuilder();
-            for (int i = 2; i < in.length; i++) {
-                repeatedCommands.append(in[i]).append(" ");
-            }
-            for (int i = 0; i < loopCount; i++) {
-                lakukan(repeatedCommands.toString().trim());
+            if (in.length > 2) {
+                int loopCount = Integer.parseInt(in[1]);
+                StringBuilder repeatedCommands = new StringBuilder();
+                for (int i = 2; i < in.length; i++) {
+                    repeatedCommands.append(in[i]).append(" ");
+                }
+                String commands = repeatedCommands.toString().trim();
+                for (int i = 0; i < loopCount; i++) {
+                    lakukan(commands);
+                }
+            } 
+            else {
+                return "Perintah tidak dipahami.";
             }
         }
         else{
@@ -140,8 +186,8 @@ public class Perintah {
         kurakuraku.rotasi(-135);
         kurakuraku.maju(tinggi);
      
-    }
-    
+    }    
+
     public void buatPohon(){        
         kurakuraku.setJejak(false);
         kurakuraku.reset();
