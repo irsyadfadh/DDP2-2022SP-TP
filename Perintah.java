@@ -45,7 +45,8 @@ public class Perintah {
     }
 
     // Dapatkan anda membuat method ini lebih baik dan lebih mudah ditambahkan
-    // atau di ubah? 
+    // atau di ubah?
+    // eksekusi perintah dengan memanggil method 
     public String lakukan(String inputPerintah){
         String[] in = inputPerintah.split(" ");
         if (in[0].equalsIgnoreCase("selesai"))
@@ -62,12 +63,46 @@ public class Perintah {
                 buatKotak(Integer.parseInt(in[1]));
         else if (in[0].equalsIgnoreCase("segitiga"))
                 buatSegitiga(Integer.parseInt(in[1]));
+        else if (in[0].equalsIgnoreCase("segitigaSikuSiku")) {
+            if (in.length > 2) {
+                buatSegitigaSikuSiku(Integer.parseInt(in[1]), Integer.parseInt(in[2]));
+            } 
+            else {
+                return "Perintah tidak dipahami.";
+            }
+        }
         else if (in[0].equalsIgnoreCase("pohon"))
                 buatPohon();        
+        else if (in[0].equalsIgnoreCase("persegi")) {
+            if (in.length > 2) {
+                buatPersegi(Integer.parseInt(in[1]), Integer.parseInt(in[2]));
+            } 
+            else {
+                return "Perintah tidak dipahami.";
+            }
+        }
         else if (in[0].equalsIgnoreCase("jejak"))
                 kurakuraku.setJejak(Boolean.parseBoolean(in[1]));
         else if (in[0].equalsIgnoreCase("pindah"))
                 kurakuraku.setPosition(new Dimension(Integer.parseInt(in[1]),Integer.parseInt(in[2])));
+        else if (in[0].equalsIgnoreCase("hadap")) {
+            if (in[1].equalsIgnoreCase("kanan"))
+                kurakuraku.rotasi(90);
+            else if (in[1].equalsIgnoreCase("kiri"))
+                kurakuraku.rotasi(-90);
+            else
+                return "Perintah tidak dipahami.";
+            } 
+        else if (in[0].equalsIgnoreCase("loop")) {
+            int loopCount = Integer.parseInt(in[1]);
+            StringBuilder repeatedCommands = new StringBuilder();
+            for (int i = 2; i < in.length; i++) {
+                repeatedCommands.append(in[i]).append(" ");
+            }
+            for (int i = 0; i < loopCount; i++) {
+                lakukan(repeatedCommands.toString().trim());
+            }
+        }
         else{
                 canvas.repaint(); 
                 return "Perintah tidak dipahami.";
@@ -82,10 +117,30 @@ public class Perintah {
             kurakuraku.rotasi(90);
         }
     }
+    public void buatPersegi(int panjang, int lebar){
+        for (int i = 0; i < 2; i++) {
+            kurakuraku.maju(panjang);
+            kurakuraku.rotasi(90);
+            kurakuraku.maju(lebar);
+            kurakuraku.rotasi(90);
+        }
+
+    }
     public void buatSegitiga(int ukuran){
         // TODO: Lengkapi isi method ini agar kura-kura bisa membuat segitiga sama sisi
-
+        for (int i=0;i<3;i++){
+            kurakuraku.maju(ukuran);
+            kurakuraku.rotasi(-120);
+        }
     }        
+    public void buatSegitigaSikuSiku(int panjangAlas, int tinggi){
+        kurakuraku.maju(tinggi);
+        kurakuraku.rotasi(-90);
+        kurakuraku.maju(panjangAlas);
+        kurakuraku.rotasi(-135);
+        kurakuraku.maju(tinggi);
+     
+    }
     
     public void buatPohon(){        
         kurakuraku.setJejak(false);
