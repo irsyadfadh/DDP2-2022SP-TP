@@ -99,8 +99,8 @@ public class Kurakura {
     }
     
     public void mundur(double jarak){
-        // TODO: lengkapi method ini untuk tugas 1
         double dx, dy;
+        /*perbedaan dengan maju hanya dari minus. rumusnya sama saja. */
         dx = -jarak * Math.cos(arah);
         dy = -jarak * Math.sin(arah);
 
