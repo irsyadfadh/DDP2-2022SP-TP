@@ -85,6 +85,30 @@ public class Perintah {
                 return "Perintah tidak dipahami."; //handle jika hanya "kotak" saja maka tidak dipahami
             }
         }
+        else if (in[0].equalsIgnoreCase("boxes")){
+            if (in.length > 1) {
+                boxes(Integer.parseInt(in[1]));
+            } 
+            else {
+                return "Perintah tidak dipahami."; //handle jika hanya "kotak" saja maka tidak dipahami
+            }
+        }
+        else if (in[0].equalsIgnoreCase("sierpinski")){
+            if (in.length > 1) {
+                sierpinski(Integer.parseInt(in[1]));
+            } 
+            else {
+                return "Perintah tidak dipahami."; //handle jika hanya "kotak" saja maka tidak dipahami
+            }
+        }
+        else if (in[0].equalsIgnoreCase("sierpinskiRekursif")){
+            if (in.length > 1) {
+                sierpinskiRekursif(Integer.parseInt(in[1]));
+            } 
+            else {
+                return "Perintah tidak dipahami."; //handle jika hanya "kotak" saja maka tidak dipahami
+            }
+        }
         else if (in[0].equalsIgnoreCase("segitiga")){
             if (in.length > 1) {
                 buatSegitiga(Integer.parseInt(in[1]));
@@ -172,6 +196,7 @@ public class Perintah {
     }        
     /*method segitiga siku siku */
     public void buatSegitigaSikuSiku(int panjangAlas, int tinggi){ //input alas dan tinggi
+
         kurakuraku.maju(tinggi);
         kurakuraku.rotasi(-90); // rotasi transisi ke sisi tinggi
         kurakuraku.maju(panjangAlas);
@@ -179,6 +204,36 @@ public class Perintah {
         kurakuraku.maju(tinggi);
      
     }    
+
+    public void boxes(int ukuran){
+        if (ukuran >= 0){
+            buatKotak(ukuran);
+            kurakuraku.setJejak(false);
+            kurakuraku.maju(10);
+            kurakuraku.rotasi(90);
+            kurakuraku.maju(10);
+            kurakuraku.rotasi(-90);
+            kurakuraku.setJejak(true);
+            boxes(ukuran-20);
+        }
+    }
+
+    public void sierpinski(int ukuran){
+        buatSegitiga(ukuran);
+        sierpinskiRekursif(ukuran/2);
+        
+    }
+
+    public void sierpinskiRekursif(int ukuran){
+        if (ukuran>2){
+            //case rekursif
+            kurakuraku.maju(ukuran);
+            kurakuraku.rotasi(-60);
+            buatSegitiga(ukuran);
+            kurakuraku.rotasi(60);
+            sierpinskiRekursif(ukuran/2);
+        }
+    }
 
     public void buatPohon(){        
         kurakuraku.setJejak(false);
