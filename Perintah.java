@@ -93,6 +93,14 @@ public class Perintah {
                 return "Perintah tidak dipahami."; //handle jika hanya "kotak" saja maka tidak dipahami
             }
         }
+        else if (in[0].equalsIgnoreCase("snowflake")){
+            if (in.length > 1) {
+                snowflake(Integer.parseInt(in[1]));
+            } 
+            else {
+                return "Perintah tidak dipahami."; //handle jika hanya "kotak" saja maka tidak dipahami
+            }
+        }
         else if (in[0].equalsIgnoreCase("sierpinski")){
             if (in.length > 1) {
                 sierpinski(Integer.parseInt(in[1]));
@@ -220,6 +228,7 @@ public class Perintah {
 
     public void sierpinski(int ukuran){
         buatSegitiga(ukuran);
+        kurakuraku.maju(ukuran/2);
         sierpinskiRekursif(ukuran/2);
         
     }
@@ -227,12 +236,46 @@ public class Perintah {
     public void sierpinskiRekursif(int ukuran){
         if (ukuran>2){
             //case rekursif
-            kurakuraku.maju(ukuran);
+            // kurakuraku.maju(ukuran);
+            // kurakuraku.rotasi(-60);
+            // buatSegitiga(ukuran);
+            // kurakuraku.rotasi(60);
+            // sierpinskiRekursif(ukuran/2);
             kurakuraku.rotasi(-60);
             buatSegitiga(ukuran);
             kurakuraku.rotasi(60);
-            sierpinskiRekursif(ukuran/2);
+            Dimension pos = kurakuraku.getPosition();
+            kurakuraku.maju(ukuran/2);
+            sierpinskiRekursif(ukuran/2); //rekursif kanan
+            kurakuraku.reset();
+            kurakuraku.setPosition(pos);
+            kurakuraku.mundur(ukuran/2);
+            sierpinskiRekursif(ukuran/2); //rekursif kiri
+            kurakuraku.reset();
+            kurakuraku.setPosition(pos);
+            kurakuraku.rotasi(-60);
+            kurakuraku.maju(ukuran);
+            kurakuraku.rotasi(-120);
+            kurakuraku.maju(ukuran/2);
+            kurakuraku.rotasi(180);
+            sierpinskiRekursif(ukuran/2); // rekursif atas
+
         }
+    }
+    
+    public void snowflake(int ukuran){
+        // if(ukuran>0){
+        //     Dimension pos = kurakuraku.getPosition();
+        //     double arah = kurakuraku.getArah();
+        //     for(int i=0;i<5;i++){
+        //         kurakuraku.setArah(arah);
+        //         arah = arah + 10;
+        //         kurakuraku.maju(ukuran);
+        //         snowflake(ukuran/2-2);
+        //         kurakuraku.setPosition(pos);
+        //         kurakuraku.rotasi(arah);
+        //     }
+        // }
     }
 
     public void buatPohon(){        
