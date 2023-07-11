@@ -1,39 +1,5 @@
-
 import java.awt.Dimension;
 
-/**
- * 
- * Perintah.java
- * <br><br>
- * Class {@code Perintah} merepresentasikan perintah-perintah umum yang 
- * dapat diberikan kepada kura-kura. Termasuk dalam class ini adalah
- * proses untuk membaca input (saat ini baru melalui satu baris perintah)
- * dan memanggil method yang berkesesuaian.
- * Dalam kelas ini juga disediakan method-method yang merupakan kumpulan-kumpulan
- * perintah berurutan yang dapat diterima oleh kurakura dan menghasilkan gambar 
- * tertentu. 
- * <br><br>
- * Tugas anda pada file ini: <br>
- * - Lengkapi javadoc comment pada tiap deklarasi method.<br>
- * - Lengkapi inline comment untuk tiap baris perintah yang penting.<br>
- * - Perbaiki method {@code lakukan} agar tidak menimbulkan error bila input salah<br>
- * - Buat (1) perintah {@code mundur <x>}" agar kura-kura bisa mundur sebanyak x pixel satuan.
- * - Buat (2) perintah {@code hadap kanan} dan {@code hadap kiri} yang akan membuat kura-kura 
- *   menghadap ke kanan (rotasi 90) dan ke kiri (rotasi -90) 
- * - Dapatkah anda membuat (3) kura-kura mengenali perintah 
- *   {@code loop 10 perintah-perintah} <br>
- *   yang artinya melakukan perintah-perintah sebanyak 10 kali? <br>
- *   contoh: "loop 10 rotasi 30 maju 30" <br>
- *           yang artinya akan melakukan perintah "rotasi 30", dilanjutkan <br>
- *           perintah "maju 30", secara berulang-ulang sebanyak 10 kali<br>
- *   contoh: "loop 5 maju 20 hadap kanan maju 30" <br>
- *           yang artinya akan melakukan perintah "maju 20", dilanjutkan <br>
- *           "hadap kanan", kemudian perintah "maju 10", <br> 
- *           secara berulang-ulang sebanyak 5 kali<br>
- * 
- * @author Ade Azurat for DPBO 2008 @ Fasilkom UI
- * @author Ade Azurat for DDP2 2023 @ Fasilkom UI
- */
 public class Perintah {
     Canvas canvas;
     Kurakura kurakuraku; 
@@ -90,23 +56,16 @@ public class Perintah {
                 boxes(Integer.parseInt(in[1]));
             } 
             else {
-                return "Perintah tidak dipahami."; //handle jika hanya "kotak" saja maka tidak dipahami
+                return "Perintah tidak dipahami."; //handle jika hanya "boxes" saja maka tidak dipahami
             }
         }
-        else if (in[0].equalsIgnoreCase("snowflake")){
-            if (in.length > 1) {
-                snowflake(Integer.parseInt(in[1]));
-            } 
-            else {
-                return "Perintah tidak dipahami."; //handle jika hanya "kotak" saja maka tidak dipahami
-            }
-        }
+
         else if (in[0].equalsIgnoreCase("sierpinski")){
             if (in.length > 1) {
                 sierpinski(Integer.parseInt(in[1]));
             } 
             else {
-                return "Perintah tidak dipahami."; //handle jika hanya "kotak" saja maka tidak dipahami
+                return "Perintah tidak dipahami."; //handle jika hanya "sierpinski" saja maka tidak dipahami
             }
         }
         else if (in[0].equalsIgnoreCase("sierpinskiRekursif")){
@@ -114,7 +73,7 @@ public class Perintah {
                 sierpinskiRekursif(Integer.parseInt(in[1]));
             } 
             else {
-                return "Perintah tidak dipahami."; //handle jika hanya "kotak" saja maka tidak dipahami
+                return "Perintah tidak dipahami."; //handle jika hanya "sierpinskiRekursif" saja maka tidak dipahami
             }
         }
         else if (in[0].equalsIgnoreCase("segitiga")){
@@ -123,6 +82,22 @@ public class Perintah {
             } 
             else {
                 return "Perintah tidak dipahami."; //handle jika hanya "segitiga" saja maka tidak dipahami
+            }
+        }
+        else if (in[0].equalsIgnoreCase("kochsnowflake")){
+            if (in.length > 1) {
+                kochSnowflake(Integer.parseInt(in[1]));
+            } 
+            else {
+                return "Perintah tidak dipahami."; //handle jika hanya "kochsnowflake" saja maka tidak dipahami
+            }
+        }
+        else if (in[0].equalsIgnoreCase("heksagon")){
+            if (in.length > 1) {
+                heksagon(Integer.parseInt(in[1]));
+            } 
+            else {
+                return "Perintah tidak dipahami."; //handle jika hanya "heksagon" saja maka tidak dipahami
             }
         }
         else if (in[0].equalsIgnoreCase("segitigasiku")) {
@@ -212,45 +187,40 @@ public class Perintah {
         kurakuraku.maju(tinggi);
      
     }    
-
+    /*method membuat boxes rekursf */
     public void boxes(int ukuran){
-        if (ukuran >= 0){
-            buatKotak(ukuran);
-            kurakuraku.setJejak(false);
-            kurakuraku.maju(10);
+        if (ukuran >= 0){ //jika ukuran >= 0 maka akan terus menjalankan kotak yang lebih kecil
+            buatKotak(ukuran); ///
+            kurakuraku.setJejak(false); // false sehingga jejak gambar yang dihasilkan tidak terlihat pada iterasi berikutnya
+            kurakuraku.maju(10); //mulai pindah posisi
             kurakuraku.rotasi(90);
             kurakuraku.maju(10);
             kurakuraku.rotasi(-90);
-            kurakuraku.setJejak(true);
-            boxes(ukuran-20);
+            kurakuraku.setJejak(true); //aktifkan jejak lagi
+            boxes(ukuran-20); //secara rekursif panggil boxes berikutnya lebih kecil 20 satuan dari ukuran
         }
     }
-
+    /*method membuat sierpinski */
     public void sierpinski(int ukuran){
-        buatSegitiga(ukuran);
-        kurakuraku.maju(ukuran/2);
-        sierpinskiRekursif(ukuran/2);
+        buatSegitiga(ukuran); //segitiga awal (cover)
+        kurakuraku.maju(ukuran/2); // maju setengah ukuran
+        sierpinskiRekursif(ukuran/2); //panggil method segitiga rekursif membuat segitiga lebih kecil
         
     }
-
+    /*method membuat rekursif segitiga sierpinski */
     public void sierpinskiRekursif(int ukuran){
         if (ukuran>2){
             //case rekursif
-            // kurakuraku.maju(ukuran);
-            // kurakuraku.rotasi(-60);
-            // buatSegitiga(ukuran);
-            // kurakuraku.rotasi(60);
-            // sierpinskiRekursif(ukuran/2);
             kurakuraku.rotasi(-60);
             buatSegitiga(ukuran);
             kurakuraku.rotasi(60);
             Dimension pos = kurakuraku.getPosition();
             kurakuraku.maju(ukuran/2);
-            sierpinskiRekursif(ukuran/2); //rekursif kanan
+            sierpinskiRekursif(ukuran/2); //rekursif untuk menggambar pola sierpinski Triagle pada sisi Kanan
             kurakuraku.reset();
             kurakuraku.setPosition(pos);
             kurakuraku.mundur(ukuran/2);
-            sierpinskiRekursif(ukuran/2); //rekursif kiri
+            sierpinskiRekursif(ukuran/2); //rekursif untuk menggambar pola Sierpinski Triangle pada sisi kiri
             kurakuraku.reset();
             kurakuraku.setPosition(pos);
             kurakuraku.rotasi(-60);
@@ -258,26 +228,46 @@ public class Perintah {
             kurakuraku.rotasi(-120);
             kurakuraku.maju(ukuran/2);
             kurakuraku.rotasi(180);
-            sierpinskiRekursif(ukuran/2); // rekursif atas
+            sierpinskiRekursif(ukuran/2); // rekursif untuk menggambar pola sierpinski Triangle pada sisi atas
 
         }
     }
-    
-    public void snowflake(int ukuran){
-        // if(ukuran>0){
-        //     Dimension pos = kurakuraku.getPosition();
-        //     double arah = kurakuraku.getArah();
-        //     for(int i=0;i<5;i++){
-        //         kurakuraku.setArah(arah);
-        //         arah = arah + 10;
-        //         kurakuraku.maju(ukuran);
-        //         snowflake(ukuran/2-2);
-        //         kurakuraku.setPosition(pos);
-        //         kurakuraku.rotasi(arah);
-        //     }
-        // }
+    /* bentuk bebas kochsnowflake */
+    public void kochSnowflake(int ukuran) {
+        kurakuraku.rotasi(-60);
+        drawKochSnowflake(ukuran);
+        kurakuraku.rotasi(120);
+        drawKochSnowflake(ukuran);
+        kurakuraku.rotasi(120);
+        drawKochSnowflake(ukuran);
     }
-
+    /*method bantuan menggambar snow */
+    private void drawKochSnowflake(int ukuran) {
+        if (ukuran <= 5) {
+            kurakuraku.maju(ukuran);
+        } else {
+            int newUkuran = ukuran / 3;
+            drawKochSnowflake(newUkuran);
+            kurakuraku.rotasi(-60);
+            drawKochSnowflake(newUkuran);
+            kurakuraku.rotasi(120);
+            drawKochSnowflake(newUkuran);
+            kurakuraku.rotasi(-60);
+            drawKochSnowflake(newUkuran);
+        }
+    }
+    public void heksagon(int ukuran){
+        if (ukuran <= 0) {
+            return;
+        } 
+        else {
+            for (int i = 0; i < 6; i++) {
+                kurakuraku.maju(ukuran);
+                heksagon(ukuran / 2); // Memanggil rekursif untuk membuat segi enam lebih kecil di dalamnya
+                kurakuraku.rotasi(60);
+            }
+        }
+    }
     public void buatPohon(){        
         kurakuraku.setJejak(false);
         kurakuraku.reset();
